@@ -12,8 +12,9 @@ const contactInfo = [
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    user_name: '',
+    user_email: '',
+    user_phone: '',
     program: '',
     message: '',
   });
@@ -24,15 +25,23 @@ export default function Contact() {
     setStatus('sending');
     
     try {
-      await emailjs.sendForm(
+      await emailjs.send(
         'service_qq255pi',
         'template_wqqya1v',
-        e.target as HTMLFormElement,
+        {
+          user_name: formData.user_name,
+          user_email: formData.user_email,
+          user_phone: formData.user_phone || 'Not provided',
+          program: formData.program || 'Not selected',
+          message: formData.message || 'No message',
+          reply_to: formData.user_email,
+        },
         'xy_IA7Wo5i36Hg4tG'
       );
       setStatus('sent');
-      setFormData({ name: '', email: '', program: '', message: '' });
-    } catch {
+      setFormData({ user_name: '', user_email: '', user_phone: '', program: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
       setStatus('error');
     }
   };
@@ -125,9 +134,9 @@ export default function Contact() {
                 <label className="block text-xs text-gray-400 uppercase tracking-wider font-mono mb-2">Name</label>
                 <input
                   type="text"
-                  name="from_name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  name="user_name"
+                  value={formData.user_name}
+                  onChange={(e) => setFormData({ ...formData, user_name: e.target.value })}
                   required
                   className="w-full bg-white border border-gray-300 px-4 py-3 text-black focus:outline-none focus:border-black transition-colors"
                   placeholder="Your name"
@@ -137,12 +146,23 @@ export default function Contact() {
                 <label className="block text-xs text-gray-400 uppercase tracking-wider font-mono mb-2">Email</label>
                 <input
                   type="email"
-                  name="from_email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  name="user_email"
+                  value={formData.user_email}
+                  onChange={(e) => setFormData({ ...formData, user_email: e.target.value })}
                   required
                   className="w-full bg-white border border-gray-300 px-4 py-3 text-black focus:outline-none focus:border-black transition-colors"
                   placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-400 uppercase tracking-wider font-mono mb-2">Phone</label>
+                <input
+                  type="tel"
+                  name="user_phone"
+                  value={formData.user_phone}
+                  onChange={(e) => setFormData({ ...formData, user_phone: e.target.value })}
+                  className="w-full bg-white border border-gray-300 px-4 py-3 text-black focus:outline-none focus:border-black transition-colors"
+                  placeholder="+212 ..."
                 />
               </div>
               <div>
