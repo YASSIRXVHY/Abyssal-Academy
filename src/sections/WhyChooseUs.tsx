@@ -1,145 +1,88 @@
 import { motion } from 'framer-motion';
-import { Trophy, GraduationCap, Target, Lightbulb, Heart, Globe2, Award, CheckCircle2 } from 'lucide-react';
-
-const features = [
-  {
-    icon: GraduationCap,
-    title: 'Expert Instructors',
-    description: 'Learn from certified professionals with years of teaching experience and industry expertise.',
-  },
-  {
-    icon: Target,
-    title: 'Goal-Oriented',
-    description: 'Personalized learning paths designed to help you achieve your specific communication goals.',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Modern Methods',
-    description: 'Cutting-edge teaching techniques combining technology with proven pedagogical approaches.',
-  },
-  {
-    icon: Heart,
-    title: 'Supportive Environment',
-    description: 'A nurturing atmosphere where every student feels encouraged to grow and excel.',
-  },
-  {
-    icon: Globe2,
-    title: 'Cultural Immersion',
-    description: 'Experience authentic cultural contexts that enhance language learning and communication.',
-  },
-  {
-    icon: Award,
-    title: 'Certified Programs',
-    description: 'Internationally recognized certifications that add value to your academic and professional profile.',
-  },
-];
+import { useTranslation } from 'react-i18next';
+import { Monitor, Users, Clock, Award } from 'lucide-react';
 
 export default function WhyChooseUs() {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+
+  const features = [
+    {
+      icon: Monitor,
+      number: '01',
+      titleKey: 'whyUs.online.title',
+      descriptionKey: 'whyUs.online.description',
+    },
+    {
+      icon: Users,
+      number: '02',
+      titleKey: 'whyUs.teachers.title',
+      descriptionKey: 'whyUs.teachers.description',
+    },
+    {
+      icon: Clock,
+      number: '03',
+      titleKey: 'whyUs.flexible.title',
+      descriptionKey: 'whyUs.flexible.description',
+    },
+    {
+      icon: Award,
+      number: '04',
+      titleKey: 'whyUs.certified.title',
+      descriptionKey: 'whyUs.certified.description',
+    },
+  ];
+
   return (
-    <section className="relative py-20 lg:py-32 bg-white overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full blur-3xl bg-primary/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-
-      <div className="relative z-10 section-padding">
-        <div className="container-wide">
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6"
-            >
-              <Trophy className="w-4 h-4" />
-              Why Choose Us
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
-            >
-              <span className="gradient-text">The Abyssal</span>
-              <br />
-              <span className="text-navy-900">Advantage</span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="text-navy-600 text-lg"
-            >
-              Discover why thousands of students and professionals choose Abyssal Academy 
-              for their communication and language learning journey.
-            </motion.p>
-          </div>
-
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <div className="icon-circle w-14 h-14 mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <feature.icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-navy-900 mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-navy-600 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Satisfaction Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+    <section id="why-us" className="relative py-32 lg:py-40 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        {/* Header */}
+        <div className={`mb-20 ${isRTL ? 'text-right' : ''}`}>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-sm text-gray-400 mb-6 tracking-[0.3em] uppercase font-mono"
+            dir={isRTL ? 'rtl' : 'ltr'}
+          >
+            {t('whyUs.label')}
+          </motion.p>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.8 }}
-            className="flex justify-center"
+            className="text-[clamp(3rem,6vw,5rem)] font-bold text-black leading-[0.9]"
+            dir={isRTL ? 'rtl' : 'ltr'}
           >
+            {t('whyUs.title')}
+          </motion.h2>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 gap-px bg-black border border-black">
+          {features.map((feature, index) => (
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex items-center gap-4 bg-gradient-to-r from-primary/10 to-accent-light rounded-2xl px-8 py-6 border border-primary/20"
+              key={feature.number}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className={`bg-white p-10 lg:p-14 group hover:bg-black hover:text-white transition-colors duration-500 ${isRTL ? 'text-right' : ''}`}
+              dir={isRTL ? 'rtl' : 'ltr'}
             >
-              <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-                <Trophy className="w-8 h-8 text-white" />
+              <div className={`flex items-start justify-between mb-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <feature.icon className="w-10 h-10 text-black group-hover:text-white transition-colors" strokeWidth={1} />
+                <span className="text-sm text-gray-400 group-hover:text-gray-500 font-mono transition-colors">{feature.number}</span>
               </div>
-              <div>
-                <div className="text-4xl font-bold gradient-text">98%</div>
-                <div className="text-navy-600 font-medium">Student Satisfaction Rate</div>
-              </div>
-              <div className="hidden sm:flex items-center gap-1 ml-4">
-                {[...Array(5)].map((_, i) => (
-                  <CheckCircle2 key={i} className="w-5 h-5 text-primary" />
-                ))}
-              </div>
+              <h3 className="text-2xl font-bold text-black group-hover:text-white mb-4 transition-colors">
+                {t(feature.titleKey)}
+              </h3>
+              <p className="text-gray-500 group-hover:text-gray-300 transition-colors leading-relaxed">
+                {t(feature.descriptionKey)}
+              </p>
             </motion.div>
-          </motion.div>
+          ))}
         </div>
       </div>
     </section>
