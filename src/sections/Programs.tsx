@@ -14,7 +14,8 @@ export default function Programs() {
       titleKey: 'programs.kids.title',
       subtitleKey: 'programs.kids.subtitle',
       descriptionKey: 'programs.kids.description',
-      price: isRTL ? '1,600 درهم' : '1,600 DH',
+      priceMorocco: isRTL ? '200 درهم' : '200 DH',
+      priceIntl: '$40',
       per: isRTL ? '/شهر' : '/month',
     },
     {
@@ -23,7 +24,8 @@ export default function Programs() {
       titleKey: 'programs.teens.title',
       subtitleKey: 'programs.teens.subtitle',
       descriptionKey: 'programs.teens.description',
-      price: isRTL ? '2,000 درهم' : '2,000 DH',
+      priceMorocco: isRTL ? '300 درهم' : '300 DH',
+      priceIntl: '$50',
       per: isRTL ? '/شهر' : '/month',
     },
     {
@@ -32,7 +34,8 @@ export default function Programs() {
       titleKey: 'programs.adults.title',
       subtitleKey: 'programs.adults.subtitle',
       descriptionKey: 'programs.adults.description',
-      price: isRTL ? '2,000 درهم' : '2,000 DH',
+      priceMorocco: isRTL ? '300 درهم' : '300 DH',
+      priceIntl: '$50',
       per: isRTL ? '/شهر' : '/month',
     },
     {
@@ -41,7 +44,8 @@ export default function Programs() {
       titleKey: 'programs.corporate.title',
       subtitleKey: 'programs.corporate.subtitle',
       descriptionKey: 'programs.corporate.description',
-      price: t('programs.corporate.price', { defaultValue: 'Custom' }),
+      priceMorocco: t('programs.corporate.price', { defaultValue: 'Custom' }),
+      priceIntl: 'Custom',
       per: '',
     },
   ];
@@ -129,11 +133,18 @@ export default function Programs() {
                 {/* Price & CTA */}
                 <div className={`lg:col-span-4 flex items-center justify-between lg:flex-col lg:items-end lg:gap-4 ${isRTL ? 'lg:items-start' : ''}`}>
                   <div className={`${isRTL ? 'text-right' : ''}`}>
-                    <span className="text-3xl font-bold text-black font-mono block" dir={isRTL ? 'rtl' : 'ltr'}>
-                      {program.price}
-                    </span>
-                    {program.per && (
-                      <span className="text-sm text-gray-400" dir={isRTL ? 'rtl' : 'ltr'}>{program.per}</span>
+                    {/* Morocco Price */}
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-black font-mono" dir={isRTL ? 'rtl' : 'ltr'}>
+                        {program.priceMorocco}
+                      </span>
+                      <span className="text-sm text-gray-400">{program.per}</span>
+                    </div>
+                    {/* International Price */}
+                    {program.priceIntl !== 'Custom' && (
+                      <span className="text-lg text-gray-500 font-mono" dir={isRTL ? 'rtl' : 'ltr'}>
+                        / {program.priceIntl}
+                      </span>
                     )}
                   </div>
                   <button 
