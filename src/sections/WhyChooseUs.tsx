@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Desktop, Users, Clock, Trophy, Sparkle } from '@phosphor-icons/react';
+import { Monitor, Users, Clock, Award, Sparkles } from 'lucide-react';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -25,38 +25,26 @@ export default function WhyChooseUs() {
 
   const features = [
     {
-      icon: Desktop,
+      icon: Monitor,
       number: '01',
-      iconWeight: 'duotone',
-      iconColor: 'text-blue-500',
-      bgColor: 'bg-blue-50',
       titleKey: 'whyUs.online.title',
       descriptionKey: 'whyUs.online.description',
     },
     {
       icon: Users,
       number: '02',
-      iconWeight: 'duotone',
-      iconColor: 'text-emerald-500',
-      bgColor: 'bg-emerald-50',
       titleKey: 'whyUs.teachers.title',
       descriptionKey: 'whyUs.teachers.description',
     },
     {
       icon: Clock,
       number: '03',
-      iconWeight: 'duotone',
-      iconColor: 'text-amber-500',
-      bgColor: 'bg-amber-50',
       titleKey: 'whyUs.flexible.title',
       descriptionKey: 'whyUs.flexible.description',
     },
     {
-      icon: Trophy,
+      icon: Award,
       number: '04',
-      iconWeight: 'duotone',
-      iconColor: 'text-purple-500',
-      bgColor: 'bg-purple-50',
       titleKey: 'whyUs.certified.title',
       descriptionKey: 'whyUs.certified.description',
     },
@@ -78,7 +66,7 @@ export default function WhyChooseUs() {
             className="text-xs text-neutral-400 mb-6 tracking-[0.4em] uppercase font-medium flex items-center gap-3"
             dir={isRTL ? 'rtl' : 'ltr'}
           >
-            <Sparkle className="w-4 h-4 text-amber-500" weight="duotone" />
+            <Sparkles className="w-4 h-4 text-amber-500" />
             {t('whyUs.label')}
           </motion.p>
           
@@ -101,14 +89,14 @@ export default function WhyChooseUs() {
               dir={isRTL ? 'rtl' : 'ltr'}
             >
               {/* Number */}
-              <span className="absolute top-6 right-6 text-xs text-neutral-300 font-mono group-hover:text-neutral-600 transition-colors">
+              <span className={`absolute top-6 text-xs text-neutral-300 font-mono group-hover:text-neutral-600 transition-colors ${isRTL ? 'left-6' : 'right-6'}`}>
                 {feature.number}
               </span>
 
               {/* Icon */}
               <div className={`mb-8 ${isRTL ? 'flex justify-end' : ''}`}>
-                <div className={`w-14 h-14 ${feature.bgColor} group-hover:bg-neutral-800 rounded-xl flex items-center justify-center transition-colors duration-500`}>
-                  <feature.icon className={`w-7 h-7 ${feature.iconColor} group-hover:text-white transition-colors duration-500`} weight={feature.iconWeight} />
+                <div className="w-12 h-12 bg-neutral-100 group-hover:bg-neutral-800 flex items-center justify-center transition-colors duration-500">
+                  <feature.icon className="w-6 h-6 text-neutral-600 group-hover:text-white transition-colors duration-500" strokeWidth={1.5} />
                 </div>
               </div>
 

@@ -158,7 +158,7 @@ export default function Footer() {
                   </div>
                   <div>
                     <p className="text-neutral-500 text-xs mb-1">{t('footer.phone', { defaultValue: 'Phone' })}</p>
-                    <p>+212 772529274</p>
+                    <p dir="ltr">+212 772529274</p>
                   </div>
                 </a>
               </li>

@@ -23,6 +23,8 @@ export default function LanguageSwitcher({ isScrolled = true }: LanguageSwitcher
     // Update document direction for RTL
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
     setIsOpen(false);
+    // Refresh page to ensure all components re-render properly
+    window.location.reload();
   };
 
   return (

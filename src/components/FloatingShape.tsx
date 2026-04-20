@@ -80,9 +80,7 @@ function NeuralBrain() {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={nodePositions.length / 3}
-            array={nodePositions}
-            itemSize={3}
+            args={[nodePositions, 3]}
           />
         </bufferGeometry>
         <pointsMaterial
@@ -100,9 +98,7 @@ function NeuralBrain() {
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={connectionLines.length / 3}
-            array={connectionLines}
-            itemSize={3}
+            args={[connectionLines, 3]}
           />
         </bufferGeometry>
         <lineBasicMaterial
@@ -152,9 +148,7 @@ function AmbientParticles() {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial

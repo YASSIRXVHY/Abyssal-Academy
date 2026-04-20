@@ -7,17 +7,15 @@ import { useRef, useEffect } from 'react';
 
 interface NoiseOverlayProps {
   opacity?: number;
-  grainSize?: number;
   animated?: boolean;
 }
 
 export default function NoiseOverlay({ 
-  opacity = 0.03, 
-  grainSize = 1,
+  opacity = 0.03,
   animated = true 
 }: NoiseOverlayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,7 +65,7 @@ export default function NoiseOverlay({
 
     return () => {
       window.removeEventListener('resize', resize);
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
       }
     };

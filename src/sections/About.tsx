@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Phone, GlobeHemisphereWest } from '@phosphor-icons/react';
+import { Phone, Globe } from 'lucide-react';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -86,16 +86,16 @@ export default function About() {
               className={`grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 ${isRTL ? 'text-right' : ''}`}
             >
               <div className="group p-6 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-emerald-500/30 transition-all duration-300">
-                <GlobeHemisphereWest className={`w-5 h-5 text-emerald-500 mb-3 ${isRTL ? 'ml-auto' : ''}`} weight="fill" />
+                <Globe className={`w-5 h-5 text-emerald-500 mb-3 ${isRTL ? 'ml-auto' : ''}`} />
                 <p className="text-xs text-neutral-500 tracking-wider uppercase mb-1">{t('about.location', { defaultValue: 'Location' })}</p>
                 <p className="text-white font-medium">{t('about.morocco', { defaultValue: 'Morocco' })}</p>
                 <p className="text-neutral-500 text-sm">{t('about.online', { defaultValue: '100% Online' })}</p>
               </div>
               
               <div className="group p-6 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300">
-                <Phone className={`w-5 h-5 text-blue-500 mb-3 ${isRTL ? 'ml-auto' : ''}`} weight="fill" />
+                <Phone className={`w-5 h-5 text-blue-500 mb-3 ${isRTL ? 'ml-auto' : ''}`} />
                 <p className="text-xs text-neutral-500 tracking-wider uppercase mb-1">{t('about.contact', { defaultValue: 'Contact' })}</p>
-                <p className="text-white font-medium">+212 772529274</p>
+                <p className="text-white font-medium" dir="ltr">+212 772529274</p>
                 <p className="text-neutral-500 text-sm truncate">yassirgattoa@gmail.com</p>
               </div>
             </motion.div>

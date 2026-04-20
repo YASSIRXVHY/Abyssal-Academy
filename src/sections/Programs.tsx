@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Books, Baby, Student, Briefcase, Buildings } from '@phosphor-icons/react';
+import { ArrowRight, ArrowUpRight, GraduationCap } from 'lucide-react';
 import MagneticButton from '@/components/MagneticButton';
 
 const fadeInUp = {
@@ -29,10 +28,6 @@ export default function Programs() {
     {
       id: 'kids',
       number: '01',
-      icon: Baby,
-      iconWeight: 'duotone',
-      iconColor: 'text-rose-500',
-      bgColor: 'bg-rose-50',
       titleKey: 'programs.kids.title',
       subtitleKey: 'programs.kids.subtitle',
       descriptionKey: 'programs.kids.description',
@@ -43,10 +38,6 @@ export default function Programs() {
     {
       id: 'teens',
       number: '02',
-      icon: Student,
-      iconWeight: 'duotone',
-      iconColor: 'text-blue-500',
-      bgColor: 'bg-blue-50',
       titleKey: 'programs.teens.title',
       subtitleKey: 'programs.teens.subtitle',
       descriptionKey: 'programs.teens.description',
@@ -57,10 +48,6 @@ export default function Programs() {
     {
       id: 'adults',
       number: '03',
-      icon: Briefcase,
-      iconWeight: 'duotone',
-      iconColor: 'text-amber-500',
-      bgColor: 'bg-amber-50',
       titleKey: 'programs.adults.title',
       subtitleKey: 'programs.adults.subtitle',
       descriptionKey: 'programs.adults.description',
@@ -71,10 +58,6 @@ export default function Programs() {
     {
       id: 'corporate',
       number: '04',
-      icon: Buildings,
-      iconWeight: 'duotone',
-      iconColor: 'text-purple-500',
-      bgColor: 'bg-purple-50',
       titleKey: 'programs.corporate.title',
       subtitleKey: 'programs.corporate.subtitle',
       descriptionKey: 'programs.corporate.description',
@@ -105,7 +88,7 @@ export default function Programs() {
             className="text-xs text-neutral-400 mb-6 tracking-[0.4em] uppercase font-medium flex items-center gap-3"
             dir={isRTL ? 'rtl' : 'ltr'}
           >
-            <Books className="w-4 h-4 text-blue-500" weight="duotone" />
+            <GraduationCap className="w-4 h-4 text-blue-500" />
             {t('programs.label')}
           </motion.p>
 
@@ -138,13 +121,6 @@ export default function Programs() {
               <span className={`absolute top-6 text-xs text-neutral-400 font-mono ${isRTL ? 'left-6' : 'right-6'}`}>
                 {program.number}
               </span>
-
-              {/* Colored Icon */}
-              <div className={`mb-6 ${isRTL ? 'flex justify-end' : ''}`}>
-                <div className={`w-14 h-14 ${program.bgColor} rounded-xl flex items-center justify-center group-hover:bg-white/10 transition-colors duration-500`}>
-                  <program.icon className={`w-7 h-7 ${program.iconColor} group-hover:text-white transition-colors duration-500`} weight={program.iconWeight} />
-                </div>
-              </div>
 
               <div className={`${isRTL ? 'text-right' : ''}`}>
                 {/* Title & Subtitle */}
