@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Check } from 'lucide-react';
 
-export default function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  isScrolled?: boolean;
+}
+
+export default function LanguageSwitcher({ isScrolled = true }: LanguageSwitcherProps) {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,7 +29,11 @@ export default function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-100 transition-colors"
+        className={`flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
+          isScrolled
+            ? 'text-gray-700 hover:text-black hover:bg-gray-100'
+            : 'text-white/90 hover:text-white hover:bg-white/10'
+        }`}
       >
         <Globe className="w-4 h-4" />
         <span className="hidden sm:inline">{currentLang.code === 'ar' ? 'العربية' : 'EN'}</span>

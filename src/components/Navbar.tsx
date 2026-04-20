@@ -58,8 +58,10 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white'
+        className={`fixed top-10 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur-md shadow-sm' 
+            : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -78,7 +80,7 @@ export default function Navbar() {
               <img
                 src="/images/Logo.png"
                 alt="Abyssal Academy"
-                className="h-16 md:h-20 w-auto object-contain"
+                className="h-20 md:h-24 w-auto object-contain"
               />
             </motion.a>
 
@@ -95,7 +97,11 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="px-4 py-2 text-sm font-medium text-gray-800 hover:text-black hover:bg-gray-100 transition-colors"
+                  className={`px-4 py-2 text-sm font-medium transition-colors ${
+                  isScrolled 
+                    ? 'text-gray-800 hover:text-black hover:bg-gray-100' 
+                    : 'text-white/90 hover:text-white hover:bg-white/10'
+                }`}
                 >
                   {link.name}
                 </motion.a>
@@ -104,7 +110,7 @@ export default function Navbar() {
 
             {/* CTA & Language */}
             <div className={`hidden lg:flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <LanguageSwitcher />
+              <LanguageSwitcher isScrolled={isScrolled} />
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -112,7 +118,11 @@ export default function Navbar() {
               >
                 <button
                   onClick={() => scrollToSection('#contact')}
-                  className="bg-black text-white px-6 py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors inline-flex items-center gap-2 group"
+                  className={`px-6 py-2.5 text-sm font-medium transition-all duration-300 inline-flex items-center gap-2 group ${
+                    isScrolled
+                      ? 'bg-black text-white hover:bg-gray-800'
+                      : 'bg-white text-black hover:bg-neutral-200'
+                  }`}
                 >
                   {t('nav.enroll')}
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -122,15 +132,17 @@ export default function Navbar() {
 
             {/* Mobile Menu Button */}
             <div className="lg:hidden flex items-center gap-2">
-              <LanguageSwitcher />
+              <LanguageSwitcher isScrolled={isScrolled} />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 hover:bg-gray-100 transition-colors"
+                className={`p-2 transition-colors ${
+                  isScrolled ? 'hover:bg-gray-100' : 'hover:bg-white/10'
+                }`}
               >
                 {isMobileMenuOpen ? (
-                  <X className="w-6 h-6 text-black" />
+                  <X className={`w-6 h-6 ${isScrolled ? 'text-black' : 'text-white'}`} />
                 ) : (
-                  <Menu className="w-6 h-6 text-black" />
+                  <Menu className={`w-6 h-6 ${isScrolled ? 'text-black' : 'text-white'}`} />
                 )}
               </button>
             </div>

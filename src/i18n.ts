@@ -20,9 +20,11 @@ const resources = {
       },
       // Hero
       hero: {
-        label: 'Online English Academy',
-        title: 'Master Communication From Anywhere',
-        subtitle: 'Premium online English programs for all ages. Learn with expert teachers worldwide.',
+        label: 'Abyssal Academy',
+        title: 'Abyssal Academy',
+        subtitle: 'Master English from anywhere. All levels, professional instructors, proven results.',
+        startLearning: 'Start Learning',
+        learnMore: 'Learn More',
         viewPrograms: 'View Programs',
         aboutUs: 'About Us',
         scroll: 'Scroll',
@@ -196,12 +198,14 @@ const resources = {
       },
       // Hero
       hero: {
-        label: 'أكاديمية اللغة الإنجليزية عبر الإنترنت',
-        title: 'أتقن التواصل من أي مكان',
-        subtitle: 'برامج إنجليزية متميزة عبر الإنترنت لجميع الأعمار. تعلم مع معلمين خبراء من جميع أنحاء العالم.',
+        label: 'أكاديمية أبيسال',
+        title: 'أكاديمية أبيسال',
+        subtitle: 'تعلم الإنجليزية من أي مكان. جميع المستويات، معلمون محترفون، نتائج مثبتة.',
+        startLearning: 'ابدأ التعلم',
+        learnMore: 'اعرف المزيد',
         viewPrograms: 'عرض البرامج',
         aboutUs: 'من نحن',
-        scroll: 'اسحب للأسفل',
+        scroll: 'اسحب',
       },
       // Programs
       programs: {

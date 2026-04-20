@@ -1,156 +1,229 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useTranslation } from 'react-i18next';
-import { ArrowRight, ArrowDown } from 'lucide-react';
-import MagneticButton from '@/components/MagneticButton';
+/**
+ * Hero Section - Premium Luxury Black/White Design
+ * Features:
+ * - Fullscreen dark hero with 3D floating element
+ * - Subtle glitch effect on title (hover + intermittent)
+ * - Noise overlay for film-like texture
+ * - Smooth Framer Motion animations
+ * - Micro-interactions on CTA buttons
+ */
 
-gsap.registerPlugin(ScrollTrigger);
+import { useRef, useEffect, Suspense, lazy } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import LuxuryGlitch from '@/components/LuxuryGlitch';
+import { StaticNoise } from '@/components/NoiseOverlay';
+
+// Lazy load 3D component for performance
+const FloatingShape = lazy(() => import('@/components/FloatingShape'));
+
+// Animation variants for staggered entrance
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 0.1, 0.25, 1] as const, // Smooth cubic bezier
+    },
+  },
+};
 
 export default function Hero() {
   const { t, i18n } = useTranslation();
   const heroRef = useRef<HTMLElement>(null);
+  const isRTL = i18n.language === 'ar';
 
-  useEffect(() => {
-    if (heroRef.current) {
-      gsap.to('.hero-content', {
-        yPercent: 20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    }
-  }, []);
+  // Parallax scroll effect for background elements
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const opacityFade = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const isRTL = i18n.language === 'ar';
+  // Keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && (e.target as HTMLElement)?.getAttribute('role') === 'button') {
+        (e.target as HTMLElement).click();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
-    <section ref={heroRef} id="home" className="relative min-h-screen flex flex-col bg-white overflow-hidden">
-      {/* Main Content */}
-      <div className="flex-1 flex items-center relative z-10">
-        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 py-20">
-          <div className={`grid lg:grid-cols-12 gap-12 lg:gap-8 items-center ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
-            {/* Left: Text */}
-            <div className={`lg:col-span-7 hero-content ${isRTL ? 'lg:order-2 text-right' : ''}`}>
+    <section
+      ref={heroRef}
+      id="home"
+      className="relative h-screen w-full bg-black overflow-hidden"
+      aria-label="Hero section"
+    >
+      {/* Noise texture overlay - subtle film grain */}
+      <StaticNoise opacity={0.025} />
+
+      {/* 3D Background Element */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{ y: backgroundY }}
+      >
+        <Suspense fallback={null}>
+          <FloatingShape />
+        </Suspense>
+      </motion.div>
+
+      {/* Gradient overlay for depth */}
+      <div 
+        className="absolute inset-0 z-1 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse at 20% 50%, rgba(30,30,30,0.4) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 80%, rgba(20,20,20,0.3) 0%, transparent 40%),
+            linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%)
+          `,
+        }}
+      />
+
+      {/* Main Content Container */}
+      <motion.div
+        className="relative z-10 h-full flex flex-col justify-center"
+        style={{ opacity: opacityFade }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 xl:px-16">
+          <div className={`grid lg:grid-cols-12 gap-8 items-center ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+            
+            {/* Left Content Column - Offset for asymmetry */}
+            <div className={`lg:col-span-7 lg:col-start-1 ${isRTL ? 'lg:order-2 lg:col-start-6 text-right' : ''}`}>
+              
+              {/* Eyebrow Label */}
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.2 }}
-                className="text-sm text-gray-400 mb-8 tracking-[0.3em] uppercase font-mono"
+                variants={itemVariants}
+                className={`text-xs md:text-sm text-neutral-500 mb-6 tracking-[0.4em] uppercase font-medium ${isRTL ? 'text-right' : ''}`}
                 dir={isRTL ? 'rtl' : 'ltr'}
               >
-                {t('hero.label')}
+                {t('hero.label', { defaultValue: 'Online English Academy' })}
               </motion.p>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-[clamp(2.5rem,7vw,6rem)] font-bold text-black leading-[0.95] mb-10 tracking-tight"
-                dir={isRTL ? 'rtl' : 'ltr'}
-              >
-                {t('hero.title')}
-              </motion.h1>
+              {/* Main Title with Glitch Effect */}
+              <motion.div variants={itemVariants} className={`mb-8 ${isRTL ? 'text-right' : ''}`}>
+                <LuxuryGlitch
+                  as="h1"
+                  trigger="both"
+                  intensity="low"
+                  className="text-[clamp(2.8rem,8vw,6.5rem)] font-bold text-white leading-[0.95] tracking-[-0.02em] select-none inline-block"
+                >
+                  <span dir={isRTL ? 'rtl' : 'ltr'}>
+                    {t('hero.title', { defaultValue: 'Abyssal Academy' })}
+                  </span>
+                </LuxuryGlitch>
+              </motion.div>
 
+              {/* Subtitle - Clean hierarchy */}
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-gray-500 text-lg md:text-xl mb-12 max-w-lg leading-relaxed"
+                variants={itemVariants}
+                className={`text-neutral-400 text-base md:text-lg lg:text-xl mb-12 max-w-md leading-relaxed font-light ${isRTL ? 'text-right' : ''}`}
                 dir={isRTL ? 'rtl' : 'ltr'}
               >
-                {t('hero.subtitle')}
+                {t('hero.subtitle', { defaultValue: 'Master English from anywhere. All levels, professional instructors, proven results.' })}
               </motion.p>
 
+              {/* CTA Buttons with micro-interactions */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
+                variants={itemVariants}
                 className={`flex flex-col sm:flex-row gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}
               >
-                <MagneticButton
+                {/* Primary CTA - Start Learning */}
+                <motion.button
                   onClick={() => scrollToSection('#programs')}
-                  className="bg-black text-white hover:bg-gray-800 px-8 py-5 text-sm tracking-[0.2em] uppercase font-medium inline-flex items-center gap-3 transition-colors border border-black"
+                  className={`group relative overflow-hidden bg-white text-black px-8 py-4 text-sm tracking-[0.15em] uppercase font-medium inline-flex items-center justify-center gap-3 transition-all duration-500 ease-out ${isRTL ? 'flex-row-reverse' : ''}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  aria-label={t('hero.startLearning', { defaultValue: 'Start Learning' })}
                 >
-                  {t('hero.viewPrograms')}
-                  <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
-                </MagneticButton>
+                  {/* Glow effect on hover */}
+                  <span className="absolute inset-0 bg-neutral-200 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                  <span className={`relative z-10 flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    {t('hero.startLearning', { defaultValue: 'Start Learning' })}
+                    <ArrowRight 
+                      className={`w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} 
+                    />
+                  </span>
+                </motion.button>
 
-                <MagneticButton
+                {/* Secondary CTA - Learn More */}
+                <motion.button
                   onClick={() => scrollToSection('#about')}
-                  className="bg-white text-black hover:bg-black hover:text-white px-8 py-5 text-sm tracking-[0.2em] uppercase font-medium border border-black transition-colors"
+                  className="group relative border border-neutral-700 text-neutral-300 hover:text-white px-8 py-4 text-sm tracking-[0.15em] uppercase font-medium transition-all duration-500 ease-out hover:border-neutral-500"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  aria-label={t('hero.learnMore', { defaultValue: 'Learn More' })}
                 >
-                  {t('hero.aboutUs')}
-                </MagneticButton>
+                  {/* Border glow effect */}
+                  <span className="absolute inset-0 border border-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-105 group-hover:scale-100" />
+                  <span className="relative z-10">
+                    {t('hero.learnMore', { defaultValue: 'Learn More' })}
+                  </span>
+                </motion.button>
               </motion.div>
             </div>
 
-            {/* Right: Stats Grid */}
-            <motion.div
-              initial={{ opacity: 0, x: isRTL ? -30 : 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className={`lg:col-span-5 ${isRTL ? 'lg:order-1' : ''}`}
-            >
-              <div className="grid grid-cols-2 gap-px bg-black border border-black">
-                {[
-                  { num: '500+', label: t('nav.students', { defaultValue: 'Students' }) },
-                  { num: '20+', label: t('nav.programs', { defaultValue: 'Programs' }) },
-                  { num: '15+', label: t('nav.teachers', { defaultValue: 'Teachers' }) },
-                  { num: '10+', label: t('nav.years', { defaultValue: 'Years' }) },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
-                    whileHover={{ backgroundColor: '#f3f4f6' }}
-                    className="bg-white p-8 lg:p-10 group transition-colors duration-300"
-                  >
-                    <p className="text-4xl lg:text-5xl font-bold text-black mb-2 font-mono">
-                      {stat.num}
-                    </p>
-                    <p className="text-gray-400 text-sm tracking-wider uppercase">
-                      {stat.label}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+            {/* Right Column - Spacer for 3D element visibility */}
+            <div className="lg:col-span-5 hidden lg:block" aria-hidden="true" />
           </div>
         </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
-      >
-        <MagneticButton
-          onClick={() => scrollToSection('#about')}
-          className="flex flex-col items-center gap-3 text-gray-400 hover:text-black transition-colors"
-        >
-          <span className="text-xs tracking-[0.3em] uppercase font-mono">{t('hero.scroll')}</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <ArrowDown className="w-4 h-4" />
-          </motion.div>
-        </MagneticButton>
       </motion.div>
+
+      {/* Scroll Indicator - Minimal */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+      >
+        <motion.button
+          onClick={() => scrollToSection('#about')}
+          className="group flex flex-col items-center gap-3 text-neutral-500 hover:text-neutral-300 transition-colors duration-300"
+          whileHover={{ y: 2 }}
+          aria-label={t('hero.scroll', { defaultValue: 'Scroll to explore' })}
+        >
+          <span className="text-[10px] tracking-[0.3em] uppercase font-medium">
+            {t('hero.scroll', { defaultValue: 'Scroll' })}
+          </span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <ChevronDown className="w-5 h-5" />
+          </motion.div>
+        </motion.button>
+      </motion.div>
+
+      {/* Bottom gradient fade to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
     </section>
   );
 }
+
